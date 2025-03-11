@@ -30,7 +30,7 @@ contactsRouter.put(
 );
 
 contactsRouter.patch(
-  '/students/:studentId',
+  '/contacts/:contactId',
   ctrlWrapper(patchContactController),
 );
 
