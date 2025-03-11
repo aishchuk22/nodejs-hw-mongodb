@@ -54,7 +54,7 @@ export const deleteContactController = async (req, res) => {
   res.status(204).send();
 };
 
-export const upsertContactController = async (req, res, next) => {
+export const upsertContactController = async (req, res) => {
   const { contactId } = req.params;
 
   const result = await updateContact(contactId, req.body, {
@@ -74,7 +74,7 @@ export const upsertContactController = async (req, res, next) => {
   });
 };
 
-export const patchContactController = async (req, res, next) => {
+export const patchContactController = async (req, res) => {
   const { contactId } = req.params;
   const result = await updateContact(contactId, req.body);
 
