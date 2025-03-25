@@ -11,6 +11,7 @@ import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 
 import { isValidId } from '../middlewares/isValidId.js';
 import { validateBody } from '../middlewares/validateBody.js';
+import { authenticate } from '../middlewares/authenticate.js';
 import {
   createContactSchema,
   upsertContactSchema,
@@ -18,34 +19,36 @@ import {
 
 const contactsRouter = Router();
 
-contactsRouter.get('/contacts', ctrlWrapper(getContactsController));
+contactsRouter.use(authenticate);
+
+contactsRouter.get('/', ctrlWrapper(getContactsController));
 contactsRouter.get(
-  '/contacts/:contactId',
+  '/:contactId',
   isValidId,
   ctrlWrapper(getContactByIdController),
 );
 
 contactsRouter.post(
-  '/contacts',
+  '/',
   validateBody(createContactSchema),
   ctrlWrapper(createContactController),
 );
 
 contactsRouter.delete(
-  '/contacts/:contactId',
+  '/:contactId',
   isValidId,
   ctrlWrapper(deleteContactController),
 );
 
 contactsRouter.put(
-  '/contacts/:contactId',
+  '/:contactId',
   isValidId,
   validateBody(createContactSchema),
   ctrlWrapper(upsertContactController),
 );
 
 contactsRouter.patch(
-  '/contacts/:contactId',
+  '/:contactId',
   isValidId,
   validateBody(upsertContactSchema),
   ctrlWrapper(patchContactController),

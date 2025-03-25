@@ -18,6 +18,7 @@ export const getContactsController = async (req, res) => {
     perPage,
     sortBy,
     sortOrder,
+    userId: req.user.id,
   });
 
   res.json({
@@ -35,6 +36,10 @@ export const getContactByIdController = async (req, res, next) => {
     throw createHttpError(404, 'Contact not found');
   }
 
+  if (contact.userId.toString() !== req.user.id.toString()) {
+    throw createHttpError(403, 'Forbidden');
+  }
+
   res.json({
     status: 200,
     message: `Successfully found contact with id ${contactId}!`,
@@ -43,7 +48,10 @@ export const getContactByIdController = async (req, res, next) => {
 };
 
 export const createContactController = async (req, res) => {
-  const contact = await createContact(req.body);
+  const contact = await createContact({
+    ...req.body,
+    userId: req.user.id,
+  });
 
   res.status(201).json({
     status: 201,
@@ -61,11 +69,16 @@ export const deleteContactController = async (req, res) => {
     throw createHttpError(404, 'Contact not found');
   }
 
+  if (contact.userId.toString() !== req.user.id.toString()) {
+    throw createHttpError(403, 'Forbidden');
+  }
+
   res.status(204).send();
 };
 
 export const upsertContactController = async (req, res) => {
   const { contactId } = req.params;
+  const contact = await getContactById(contactId);
 
   const result = await updateContact(contactId, req.body, {
     upsert: true,
@@ -73,6 +86,10 @@ export const upsertContactController = async (req, res) => {
 
   if (!result) {
     throw createHttpError(404, 'Contact not found');
+  }
+
+  if (contact.userId.toString() !== req.user.id.toString()) {
+    throw createHttpError(403, 'Forbidden');
   }
 
   const status = result.isNew ? 201 : 200;
@@ -87,9 +104,14 @@ export const upsertContactController = async (req, res) => {
 export const patchContactController = async (req, res) => {
   const { contactId } = req.params;
   const result = await updateContact(contactId, req.body);
+  const contact = await getContactById(contactId);
 
   if (!result) {
     throw createHttpError(404, 'Contact not found');
+  }
+
+  if (contact.userId.toString() !== req.user.id.toString()) {
+    throw createHttpError(403, 'Forbidden');
   }
 
   res.json({
