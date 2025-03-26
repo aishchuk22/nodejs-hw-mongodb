@@ -30,14 +30,11 @@ export const getContactsController = async (req, res) => {
 
 export const getContactByIdController = async (req, res, next) => {
   const { contactId } = req.params;
-  const contact = await getContactById(contactId);
+  const userId = req.user.id;
+  const contact = await getContactById(contactId, userId);
 
   if (!contact) {
     throw createHttpError(404, 'Contact not found');
-  }
-
-  if (contact.userId.toString() !== req.user.id.toString()) {
-    throw createHttpError(403, 'Forbidden');
   }
 
   res.json({
@@ -62,15 +59,11 @@ export const createContactController = async (req, res) => {
 
 export const deleteContactController = async (req, res) => {
   const { contactId } = req.params;
-
-  const contact = await deleteContact(contactId);
+  const userId = req.user.id;
+  const contact = await deleteContact(contactId, userId);
 
   if (!contact) {
     throw createHttpError(404, 'Contact not found');
-  }
-
-  if (contact.userId.toString() !== req.user.id.toString()) {
-    throw createHttpError(403, 'Forbidden');
   }
 
   res.status(204).send();
@@ -78,18 +71,11 @@ export const deleteContactController = async (req, res) => {
 
 export const upsertContactController = async (req, res) => {
   const { contactId } = req.params;
-  const contact = await getContactById(contactId);
-
-  const result = await updateContact(contactId, req.body, {
-    upsert: true,
-  });
+  const userId = req.user.id;
+  const result = await updateContact(contactId, req.body, userId);
 
   if (!result) {
     throw createHttpError(404, 'Contact not found');
-  }
-
-  if (contact.userId.toString() !== req.user.id.toString()) {
-    throw createHttpError(403, 'Forbidden');
   }
 
   const status = result.isNew ? 201 : 200;
@@ -103,15 +89,11 @@ export const upsertContactController = async (req, res) => {
 
 export const patchContactController = async (req, res) => {
   const { contactId } = req.params;
-  const result = await updateContact(contactId, req.body);
-  const contact = await getContactById(contactId);
+  const userId = req.user.id;
+  const result = await updateContact(contactId, req.body, userId);
 
   if (!result) {
     throw createHttpError(404, 'Contact not found');
-  }
-
-  if (contact.userId.toString() !== req.user.id.toString()) {
-    throw createHttpError(403, 'Forbidden');
   }
 
   res.json({
