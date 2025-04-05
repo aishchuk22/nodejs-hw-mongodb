@@ -3,6 +3,8 @@ import {
   registerUser,
   logoutUser,
   refreshUsersSession,
+  requestResetToken,
+  resetPassword,
 } from '../services/auth.js';
 import { THIRTY_DAYS } from '../constants/index.js';
 
@@ -73,5 +75,25 @@ export const refreshUserSessionController = async (req, res) => {
     data: {
       accessToken: session.accessToken,
     },
+  });
+};
+
+export const requestResetEmailController = async (req, res) => {
+  await requestResetToken(req.body.email);
+
+  res.status(200).json({
+    message: 'Reset password email was successfully sent',
+    status: 200,
+    data: {},
+  });
+};
+
+export const resetPasswordController = async (req, res) => {
+  await resetPassword(req.body);
+
+  res.status(200).json({
+    message: 'Password has been successfully reset.',
+    status: 200,
+    data: {},
   });
 };
