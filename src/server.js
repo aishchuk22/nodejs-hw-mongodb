@@ -13,6 +13,8 @@ const PORT = Number(getEnvVar('PORT', '3000'));
 export const startServer = () => {
   const app = express();
 
+  app.use('/uploads', express.static(UPLOAD_DIR));
+
   app.use(
     express.json({
       type: ['application/json', 'application/vnd.api+json'],
@@ -21,8 +23,6 @@ export const startServer = () => {
   );
   app.use(cors());
   app.use(cookieParser());
-
-  app.use('/uploads', express.static(UPLOAD_DIR));
 
   app.use(router);
 
