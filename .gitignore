@@ -9,4 +9,6 @@
 .idea
 
 temp/*
+!temp/.gitkeep
 uploads/*
+!uploads/.gitkeep
