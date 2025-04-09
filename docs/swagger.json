@@ -14,7 +14,7 @@
       "url": "http://localhost:3000"
     },
     {
-      "url": "https://example.com/api/v1"
+      "url": "https://nodejs-hw-mongodb-ixyc.onrender.com"
     }
   ],
   "tags": [
@@ -30,7 +30,9 @@
   "paths": {
     "/contacts": {
       "post": {
-        "tags": ["Contacts"],
+        "tags": [
+          "Contacts"
+        ],
         "summary": "Create contact",
         "operationId": "createContact",
         "description": "Create a contact with payload",
@@ -44,7 +46,11 @@
             "multipart/form-data": {
               "schema": {
                 "type": "object",
-                "required": ["name", "phoneNumber", "contactType"],
+                "required": [
+                  "name",
+                  "phoneNumber",
+                  "contactType"
+                ],
                 "properties": {
                   "name": {
                     "description": "Contact's name",
@@ -59,7 +65,11 @@
                   "contactType": {
                     "description": "Contact's relation type",
                     "type": "string",
-                    "enum": ["work", "home", "personal"]
+                    "enum": [
+                      "work",
+                      "home",
+                      "personal"
+                    ]
                   },
                   "email": {
                     "description": "Contact's email",
@@ -70,6 +80,11 @@
                     "description": "Whether is contact is marked as favourite",
                     "type": "boolean",
                     "example": false
+                  },
+                  "userId": {
+                    "description": "Contact's owner id",
+                    "type": "string",
+                    "example": "65e4decdd286b30065d54af9"
                   },
                   "photo": {
                     "description": "Contact's photo",
@@ -88,7 +103,11 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": ["status", "message", "data"],
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
                   "properties": {
                     "status": {
                       "type": "integer",
@@ -113,7 +132,9 @@
         }
       },
       "get": {
-        "tags": ["Contacts"],
+        "tags": [
+          "Contacts"
+        ],
         "summary": "Get list of contacts",
         "operationId": "getContacts",
         "description": "Get list of contacts with this endpoint",
@@ -153,7 +174,10 @@
             "name": "sortOrder",
             "schema": {
               "type": "string",
-              "enum": ["asc", "desc"],
+              "enum": [
+                "asc",
+                "desc"
+              ],
               "example": "asc"
             }
           }
@@ -165,7 +189,11 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": ["status", "message", "data"],
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
                   "properties": {
                     "status": {
                       "type": "integer",
@@ -232,7 +260,9 @@
     },
     "/contacts/{id}": {
       "get": {
-        "tags": ["Contacts"],
+        "tags": [
+          "Contacts"
+        ],
         "summary": "Get contact by id",
         "operationId": "getContact",
         "description": "Get contact by id",
@@ -259,7 +289,11 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": ["status", "message", "data"],
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
                   "properties": {
                     "status": {
                       "type": "integer",
@@ -295,7 +329,12 @@
     "schemas": {
       "contact": {
         "type": "object",
-        "required": ["_id", "name", "phoneNumber", "contactType"],
+        "required": [
+          "_id",
+          "name",
+          "phoneNumber",
+          "contactType"
+        ],
         "properties": {
           "_id": {
             "description": "Contact's id",
@@ -315,7 +354,11 @@
           "contactType": {
             "description": "Contact's relation type",
             "type": "string",
-            "enum": ["work", "personal", "home"]
+            "enum": [
+              "work",
+              "personal",
+              "home"
+            ]
           },
           "userId": {
             "description": "Id of a user who created the contact",
@@ -347,7 +390,11 @@
           "application/json": {
             "schema": {
               "type": "object",
-              "required": ["status", "message", "data"],
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
               "properties": {
                 "status": {
                   "type": "integer",
@@ -359,7 +406,9 @@
                 },
                 "data": {
                   "type": "object",
-                  "required": ["message"],
+                  "required": [
+                    "message"
+                  ],
                   "properties": {
                     "message": {
                       "type": "string",
