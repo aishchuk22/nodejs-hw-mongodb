@@ -4,6 +4,9 @@ required:
   - name
   - phoneNumber
   - contactType
+  - userId
+  - createdAt
+  - updatedAt
 properties:
   _id:
     description: "Contact's id"
@@ -33,7 +36,18 @@ properties:
     description: 'Identifies if the contact is marked as favourite'
     type: boolean
     example: true
+    default: false
   photo:
     description: "Link to contacts's photo"
     type: string
     example: https://res.cloudinary.com/uqwgdu/image/upload/image.png
+  createdAt:
+    description: 'Time and date when contact created(auto)'
+    type: string
+    format: date-time
+    example: 2025-03-25T12:55:04.699Z
+  updatedAt:
+    description: 'Time and date when contact last updated(auto)'
+    type: string
+    format: date-time
+    example: 2025-03-25T12:55:04.699Z
